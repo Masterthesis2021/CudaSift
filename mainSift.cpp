@@ -12,6 +12,7 @@
 
 #include "cudaImage.h"
 #include "cudaSift.h"
+#include <unistd.h>
 
 int ImproveHomography(SiftData &data, float *homography, int numLoops, float minScore, float maxAmbiguity, float thresh);
 void PrintMatchData(SiftData &siftData1, SiftData &siftData2, CudaImage &img);
@@ -36,7 +37,7 @@ int main(int argc, char **argv)
     cv::imread("data/left.pgm", 0).convertTo(limg, CV_32FC1);
     cv::imread("data/righ.pgm", 0).convertTo(rimg, CV_32FC1);
   } else {
-    cv::imread("data/img1.png", 0).convertTo(limg, CV_32FC1);
+    cv::imread("data/img2.png", 0).convertTo(limg, CV_32FC1);
     cv::imread("data/img2.png", 0).convertTo(rimg, CV_32FC1);
   }
   //cv::flip(limg, rimg, -1);
@@ -64,8 +65,9 @@ int main(int argc, char **argv)
   //for (int thresh1=1.00f;thresh1<=4.01f;thresh1+=0.50f) {
   float *memoryTmp = AllocSiftTempMemory(w, h, 5, false);
     for (int i=0;i<1000;i++) {
-      ExtractSift(siftData1, img1, 5, initBlur, thresh, 0.0f, false, memoryTmp);
-      ExtractSift(siftData2, img2, 5, initBlur, thresh, 0.0f, false, memoryTmp);
+        ExtractSift(siftData1, img1, 5, initBlur, thresh, 0.0f, false, memoryTmp);
+        ExtractSift(siftData2, img2, 5, initBlur, thresh, 0.0f, false, memoryTmp);
+//        usleep(100000);
     }
     FreeSiftTempMemory(memoryTmp);
     
