@@ -82,10 +82,14 @@ class TestExtractKeypoints(unittest.TestCase):
         img[10, 10:70] = 255
         img[np.arange(90, 9, -1),
             70 - (np.arange(80, -1, -1) * 3 / 4 + .5).astype(int)] = 255
+        cv2.imshow('test',img)
+        cv2.waitKey()
         data1 = cudasift.PySiftData(100)
         cudasift.ExtractKeypoints(img, data1)
         data2 = cudasift.PySiftData(100)
         cudasift.ExtractKeypoints(img.transpose(), data2)
+        cv2.imshow('test',img.transpose())
+        cv2.waitKey()
         cudasift.PyMatchSiftData(data1, data2)
         df1, keypoints1 = data1.to_data_frame()
         df2, keypoints2 = data2.to_data_frame()
